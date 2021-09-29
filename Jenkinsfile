@@ -33,6 +33,10 @@ spec:
     volumeMounts:
       - name: cache-pvc
         mountPath: "/home/jenkins"
+    volumeMounts:
+      - name: cache-pvc
+        mountPath: "/home/jenkins/agent"
+        subPath: "agent"
 '''
         }
     }
