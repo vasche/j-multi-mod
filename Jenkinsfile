@@ -46,5 +46,12 @@ spec:
                 }
             }
         }
+        stage('maven') {
+            steps {
+                container('maven') {
+                    sh 'mvn clean install'
+                }
+            }
+        }
     }
 }
