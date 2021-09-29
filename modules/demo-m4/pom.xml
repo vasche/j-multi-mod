@@ -5,19 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.example</groupId>
-    <artifactId>my-multi-mod</artifactId>
+    <artifactId>demo-m4</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
-    <modules>
-        <module>demo-m1</module>
-        <module>demo-m2</module>
-        <module>demo-m3</module>
-        <module>modules/demo-m4</module>
-    </modules>
-
+    
 </project>
