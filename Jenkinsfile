@@ -1,10 +1,49 @@
+// Uses Declarative syntax to run commands inside a container.
 pipeline {
-    agent any
-
+  agent {
+      kubernetes {
+        nodeSelector 'beta.kubernetes.io/os=linux' 
+        defaultContainer 'maven'
+        idleMinutes 5
+        yaml '''
+apiVersion: v1
+kind: Pod
+spec:
+  volumes:
+    - name: cache-pvc
+      persistentVolumeClaim:
+        claimName: cache-pvc
+  containers:
+  - name: jnlp
+    image: jenkins/inbound-agent
+    resources:
+      limits: 
+        memory: "1Gi"
+      requests:
+        memory: "256Mi"
+  - name: maven
+    image: jenkins/jnlp-agent-maven:jdk11
+    command:
+    - sleep
+    args:
+    - infinity
+    env:
+      - name: HOME
+        value: /home/jenkins
+    volumeMounts:
+      - name: cache-pvc
+        mountPath: "/home/jenkins"
+'''
+        }
+    }
     stages {
-        stage('Hello') {
+        stage('Main') {
             steps {
-                echo 'Hello World'
+                container('maven') {
+                  sh 'mvn -version'
+                  sh 'ls -last /home/jenkins $HOME'
+                  sh 'env | sort'
+                }
             }
         }
     }
