@@ -10,14 +10,17 @@ apiVersion: v1
 kind: Pod
 spec:
   volumes:
-    - name: cache-pvc
+    - name: workspace-volume
       persistentVolumeClaim:
         claimName: cache-pvc
   containers:
   - name: jnlp
     image: jenkins/inbound-agent
+    env:
+      - name: HOME
+        value: /home/jenkins
     resources:
-      limits: 
+      limits:
         memory: "1Gi"
       requests:
         memory: "256Mi"
@@ -31,12 +34,8 @@ spec:
       - name: HOME
         value: /home/jenkins
     volumeMounts:
-      - name: cache-pvc
+      - name: workspace-volume
         mountPath: "/home/jenkins"
-    volumeMounts:
-      - name: cache-pvc
-        mountPath: "/home/jenkins/agent"
-        subPath: "agent"
 '''
         }
     }
